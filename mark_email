@@ -1,0 +1,6 @@
+Dustin,
+ 
+The attachments contain all the data you need. I tested a J-Series SiPM and a C-Series SiPM, hence the naming convention. In all the raw spectra (.spe), the first letter denotes the SiPM series, the middle number denotes how much fluence had been deposited in that SiPM (see the table in my memo where zero denotes zero fluence and increasing number refer to the increments in Table 1 of the memo), while the last number or word denotes what iteration if a Cs-137 spectrum or whether it was a dark spectrum or background spectrum. The Excel file contains the metadata from the spectra including full energy peak (FEP) centroid location, FEP FWHM, and their averages, standard deviations, etc.
+ 
+Best,
+Mark
