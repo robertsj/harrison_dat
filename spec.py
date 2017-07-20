@@ -1,14 +1,11 @@
-
-import numpy
 import os
 
-
+t_irr_dict = {0:0 , 1:59.6 , 2: 34.9, 3:55.3, 4:87.6, 5:138.9, 6:220.1, 7:348.8, 8:1429.1}
+fluence_dict = {0:0, 1:1e7 , 2:1.58e7, 3:2.51e7, 4:3.98e7, 5:6.31e7 , 6:10e8, 7:1.58e8, 8:3.98e8 }
 
 
 class  spectrum():
     def __init__(self, fname):
-        t_irr_dict = {0:0 , 1:59.6 , 2: 34.9, 3:55.3, 4:87.6, 5:138.9, 6:220.1, 7:348.8, 8:1429.1}
-        fluence_dict = {0:0, 1:1e7 , 2:1.58e7, 3:2.51e7, 4:3.98e7, 5:6.31e7 , 6:10e8, 7:1.58e8, 8:3.98e8 }
         done = False
         self.spec = []
 
@@ -63,7 +60,7 @@ class  spectrum():
 
 def test_spec():
     script_dir = os.path.dirname(__file__)
-    rel_path = 'CSeriesRawData/C_0_1.Spe'
+    rel_path = 'data/CSeriesRawData/C_0_1.Spe'
     abs_file_path = os.path.join(script_dir, rel_path)
     spec = spectrum(fname = abs_file_path)
 
