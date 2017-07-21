@@ -105,7 +105,8 @@ def fig_1():
     plt.ylabel('Channel Number')
     plt.title('C-Series Dark Spectra')
     plt.legend(lgn_lab, loc=1)
-    plt.show()
+    plt.savefig('figs/fig_1')
+    plt.clf()
 
 def fig_2():
     num = 0
@@ -127,7 +128,8 @@ def fig_2():
     plt.ylabel('Channel Number')
     plt.title('J-Series Dark Spectra')
     plt.legend(lgn_lab, loc=1)
-    plt.show()
+    plt.savefig('figs/fig_2')
+    plt.clf()
 
 def fig_3():
     dat =[]
@@ -154,7 +156,8 @@ def fig_3():
     plt.xlabel('Fission Neutron Fluence')
     plt.ylabel('Cs-137 Peak Centroid (chn)')
     plt.grid()
-    plt.show()
+    plt.savefig('figs/fig_3')
+    plt.clf()
 
 
 def fig_4():
@@ -184,8 +187,8 @@ def fig_4():
     plt.xlabel('Fission Neutron Fluence')
     plt.ylabel('Cs-137 Peak Centroid (chn)')
     plt.grid()
-    plt.show()
-
+    plt.savefig('figs/fig_4')
+    plt.clf()
 
 
 def fig_5():
@@ -215,7 +218,9 @@ def fig_5():
     plt.xlabel('Fission Neutron Fluence')
     plt.ylabel('Cs-137 Peak FWHM (%)')
     plt.grid()
-    plt.show()
+    plt.savefig('figs/fig_5')
+    plt.clf()
+
 
 def fig_6():
     dat =[]
@@ -244,10 +249,13 @@ def fig_6():
     plt.xlabel('Fission Neutron Fluence')
     plt.ylabel('Cs-137 Peak FWHM (%)')
     plt.grid()
-    plt.show()
+
+    plt.savefig('figs/fig_6')
+    plt.clf()
 
 def fig_7():
     pass
+
 
 def fig_8():
     pass
@@ -255,5 +263,9 @@ def fig_8():
 
 if __name__ == '__main__':
     main()
-    fig_6()
+    for num in range(7):
+        num += 1
+
+        print num
+        exec('fig_' + str(num) + '()')
 
