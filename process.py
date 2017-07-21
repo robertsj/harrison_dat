@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import spec
 import os
 import operator
+import numpy as np
 from decimal import Decimal
 
 '''
@@ -132,29 +133,118 @@ def fig_3():
     dat =[]
     dev = []
     fl_li =[]
+
     for num in range(9):
         dat.append(mean_c[num][0])
         dev.append(dev_c[num][0])
         fl_li.append(spec.fluence_dict[num])
-
-    print dat, dev
+        print spec.fluence_dict[num]
 
 
     #plt.plot()
-    plt.errorbar(fl_li, dat, dev)
-    plt.xlim(1e7, 1e9)
+    plt.errorbar(fl_li, dat, dev, fmt='o')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, dat, 1))(np.unique(fl_li)), linestyle = '--', color='b')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [dat[0] for it in dat], 1))(np.unique(fl_li)), linestyle = '-', color='r')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]+dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]-dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
+    plt.xscale('log', nonposy='clip')
+    plt.ylim(200, 450)
+    plt.xlim(1e7, 5e8)
+    plt.title('C-series Centroid Location vs Neutron Fluence')
+    plt.xlabel('Fission Neutron Fluence')
+    plt.ylabel('Cs-137 Peak Centroid (chn)')
+    plt.grid()
+    plt.show()
+
+
+def fig_4():
+    dat =[]
+    dev = []
+    fl_li =[]
+
+    for num in range(9):
+        dat.append(mean_j[num][0])
+        dev.append(dev_j[num][0])
+        fl_li.append(spec.fluence_dict[num])
+        print spec.fluence_dict[num]
+
+
+    #plt.plot()
+    plt.errorbar(fl_li, dat, dev, fmt='o')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, dat, 1))(np.unique(fl_li)), linestyle = '--', color='b')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [dat[0] for it in dat], 1))(np.unique(fl_li)), linestyle = '-', color='r')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]+dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]-dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
+
+
+    plt.xscale('log', nonposy='clip')
+    plt.ylim(300, 480)
+    plt.xlim(1e7, 5e8)
+    plt.title('J-series Centroid Location vs Neutron Fluence')
+    plt.xlabel('Fission Neutron Fluence')
+    plt.ylabel('Cs-137 Peak Centroid (chn)')
+    plt.grid()
     plt.show()
 
 
 
-def fig_4():
-    pass
-
 def fig_5():
-    pass
+    dat =[]
+    dev = []
+    fl_li =[]
+
+    for num in range(9):
+        dat.append(mean_c[num][2])
+        dev.append(dev_c[num][2])
+        fl_li.append(spec.fluence_dict[num])
+        print spec.fluence_dict[num]
+
+
+    #plt.plot()
+    plt.errorbar(fl_li, dat, dev, fmt='o')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, dat, 1))(np.unique(fl_li)), linestyle = '--', color='b')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [dat[0] for it in dat], 1))(np.unique(fl_li)), linestyle = '-', color='r')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]+dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]-dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
+
+
+    plt.xscale('log', nonposy='clip')
+    plt.ylim(5, 21)
+    plt.xlim(1e7, 5e8)
+    plt.title('C-series Centroid Location vs Neutron Fluence')
+    plt.xlabel('Fission Neutron Fluence')
+    plt.ylabel('Cs-137 Peak FWHM (%)')
+    plt.grid()
+    plt.show()
 
 def fig_6():
-    pass
+    dat =[]
+    dev = []
+    fl_li =[]
+
+    for num in range(9):
+        dat.append(mean_j[num][2])
+        dev.append(dev_j[num][2])
+        fl_li.append(spec.fluence_dict[num])
+        print spec.fluence_dict[num]
+
+
+    #plt.plot()
+    plt.errorbar(fl_li, dat, dev, fmt='o')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, dat, 1))(np.unique(fl_li)), linestyle = '--', color='b')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [dat[0] for it in dat], 1))(np.unique(fl_li)), linestyle = '-', color='r')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]+dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]-dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
+
+
+    plt.xscale('log', nonposy='clip')
+    plt.ylim(5, 14)
+    plt.xlim(1e7, 5e8)
+    plt.title('J-series Centroid Location vs Neutron Fluence')
+    plt.xlabel('Fission Neutron Fluence')
+    plt.ylabel('Cs-137 Peak FWHM (%)')
+    plt.grid()
+    plt.show()
 
 def fig_7():
     pass
@@ -165,5 +255,5 @@ def fig_8():
 
 if __name__ == '__main__':
     main()
-    fig_3()
+    fig_6()
 
