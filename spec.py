@@ -5,7 +5,7 @@ fluence_dict = {0:0, 1:1e7 , 2:1.58e7, 3:2.51e7, 4:3.98e7, 5:6.31e7 , 6:1e8, 7:1
 
 
 class  spectrum():
-    def __init__(self, fname):
+    def __init__(self, fname, basic=False):
         done = False
         self.spec = []
 
@@ -13,23 +13,24 @@ class  spectrum():
 
         self.name = fname[i_name:-4]
 
-        if self.name[4:] == 'Bkgd':    # Store type of spectrum
-            self.tp = 'bg'
-            self.iteration = None
+        if basic:
+            if self.name[4:] == 'Bkgd':    # Store type of spectrum
+                self.tp = 'bg'
+                self.iteration = None
 
-        elif self.name[4:] == 'Dark':
-            self.tp = 'dk'
-            self.iteration = None
+            elif self.name[4:] == 'Dark':
+                self.tp = 'dk'
+                self.iteration = None
 
-        else:
-            self.iteration = int(self.name[4:])
-            self.tp = 'cs'
+            else:
+                self.iteration = int(self.name[4:])
+                self.tp = 'cs'
 
 
-        self.series = self.name[0].lower()
+            self.series = self.name[0].lower()
 
-        self.fluence = fluence_dict[int(self.name[2])]  #Fluence in n/ cm^2
-        self.t_irr = t_irr_dict[int(self.name[2])]      #irradiation time in mins
+            self.fluence = fluence_dict[int(self.name[2])]  #Fluence in n/ cm^2
+            self.t_irr = t_irr_dict[int(self.name[2])]      #irradiation time in mins
 
 
 

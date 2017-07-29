@@ -49,7 +49,7 @@ def main():
                 rel_path =  directory + '/' + filename
                 abs_path= os.path.join(script_dir, rel_path)
 
-                nam_st = nam + ' = spec.spectrum(abs_path)'
+                nam_st = nam + ' = spec.spectrum(abs_path, True)'
                 exec(nam_st)                                          #name_spectrum based on file name
 
                 tp = None                           #Sort and store by spectrum type
@@ -254,6 +254,7 @@ def fig_6():
     plt.clf()
 
 def fig_7():
+
     pass
 
 
