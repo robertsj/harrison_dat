@@ -255,8 +255,28 @@ def fig_6():
 
 def fig_7():
 
-    pass
+    lgn_lab = ['$LaBr_3:Ce$, $^137Cs$ exposed', 'ZnS:Ag Hornyak, AmBe exposed', 'Dark Spectra at $3.98x10^8$ $n/cm^2$']
+    script_dir = os.path.dirname(__file__)
 
+    rel_420 = 'data/J_0_LaBr3_Cs137_420s.spe'
+    abs_420 = os.path.join(script_dir, rel_420)
+    spec_420 = spec.spectrum(abs_420)
+
+    rel_1800 = 'data/J_0_Hornyak_AmBe_1800s_Ppos.spe'
+    abs_1800 = os.path.join(script_dir, rel_1800)
+    spec_1800 = spec.spectrum(abs_1800)
+
+    plt.plot(range(len(spec_420.spec)), spec_420.spec)
+    plt.plot(range(len(spec_1800.spec)), spec_1800.spec)
+    plt.plot(range(len(dk_li[len(dk_li)-1].spec)), dk_li[len(dk_li)-1].spec)
+    plt.yscale('log')
+    plt.xlabel('Channel Number')
+    plt.ylabel('Count Rate (cps)')
+    plt.xlim(0, 600)
+    plt.ylim(0, 1e7)
+    plt.legend(lgn_lab, loc=1)
+    plt.savefig('figs/fig_7')
+    plt.clf()
 
 def fig_8():
     pass
