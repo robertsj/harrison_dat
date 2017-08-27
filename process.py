@@ -92,18 +92,24 @@ def fig_1():
         if spect.series == 'c':
             c_dk_li.append(spect)
 
-    lgn_lab = []
+    lgn_lab = ["{:.2}".format(0.00)]
 
-    for spect in c_dk_li:
+
+
+    for index,spect in enumerate(c_dk_li):
         plt.semilogy([it + 1 for it in range(len(spect.spec))], spect.spec,plt_dict[num] )      #form channel list and plot spectrum
-        lgn_lab.append("{:.2E}".format(Decimal(str(spec.fluence_dict[num]))))
+
+        if index == 0:
+            pass
+        else:
+            lgn_lab.append("{:.2E}".format(Decimal(str(spec.fluence_dict[num]))))
         num +=1
 
 
     plt.xlim(0,120)
     plt.xlabel('Count Rate(cps)')
     plt.ylabel('Channel Number')
-    plt.title('C-Series Dark Spectra')
+    #plt.title('C-Series Dark Spectra')
     plt.legend(lgn_lab, loc=1)
     plt.savefig('figs/fig_1')
     plt.clf()
@@ -115,18 +121,22 @@ def fig_2():
         if spect.series == 'j':
             j_dk_li.append(spect)
 
-    lgn_lab = []
+    lgn_lab = ["{:.2}".format(0.00)]
 
-    for spect in j_dk_li:
+    for index,spect in enumerate(j_dk_li):
         plt.semilogy([it + 1 for it in range(len(spect.spec))], spect.spec,plt_dict[num] )      #form channel list and plot spectrum
-        lgn_lab.append("{:.2E}".format(Decimal(str(spec.fluence_dict[num]))))
+
+        if index == 0:
+            pass
+        else:
+            lgn_lab.append("{:.2E}".format(Decimal(str(spec.fluence_dict[num]))))
         num +=1
 
 
     plt.xlim(0,80)
     plt.xlabel('Count Rate(cps)')
     plt.ylabel('Channel Number')
-    plt.title('J-Series Dark Spectra')
+    #plt.title('J-Series Dark Spectra')
     plt.legend(lgn_lab, loc=1)
     plt.savefig('figs/fig_2')
     plt.clf()
@@ -152,7 +162,7 @@ def fig_3():
     plt.xscale('log', nonposy='clip')
     plt.ylim(200, 450)
     plt.xlim(1e7, 5e8)
-    plt.title('C-series Centroid Location vs Neutron Fluence')
+    #plt.title('C-series Centroid Location vs Neutron Fluence')
     plt.xlabel('Fission Neutron Fluence')
     plt.ylabel('Cs-137 Peak Centroid (chn)')
     plt.grid()
@@ -183,7 +193,7 @@ def fig_4():
     plt.xscale('log', nonposy='clip')
     plt.ylim(300, 480)
     plt.xlim(1e7, 5e8)
-    plt.title('J-series Centroid Location vs Neutron Fluence')
+    #plt.title('J-series Centroid Location vs Neutron Fluence')
     plt.xlabel('Fission Neutron Fluence')
     plt.ylabel('Cs-137 Peak Centroid (chn)')
     plt.grid()
@@ -214,7 +224,7 @@ def fig_5():
     plt.xscale('log', nonposy='clip')
     plt.ylim(5, 21)
     plt.xlim(1e7, 5e8)
-    plt.title('C-series Centroid Location vs Neutron Fluence')
+    #plt.title('C-series Centroid Location vs Neutron Fluence')
     plt.xlabel('Fission Neutron Fluence')
     plt.ylabel('Cs-137 Peak FWHM (%)')
     plt.grid()
@@ -245,7 +255,7 @@ def fig_6():
     plt.xscale('log', nonposy='clip')
     plt.ylim(5, 14)
     plt.xlim(1e7, 5e8)
-    plt.title('J-series Centroid Location vs Neutron Fluence')
+    #plt.title('J-series Centroid Location vs Neutron Fluence')
     plt.xlabel('Fission Neutron Fluence')
     plt.ylabel('Cs-137 Peak FWHM (%)')
     plt.grid()
