@@ -18,6 +18,7 @@ rcParams['axes.labelsize'] = 16
 rcParams['legend.fontsize'] = 14
 rcParams.update({'figure.autolayout': True})
 rcParams['figure.figsize'] = 8, 8/1.6
+rcParams['text.usetex'] = True
 
 '''
 
@@ -30,12 +31,36 @@ The Excel file contains the metadata from the spectra including full energy peak
 
 
 
-plt_dict = {0:'b' , 1:'g', 2:'r', 3:'c', 4:'m', 5:'y', 6:'k', 7:'b--', 8:'r--'}
+plt_dict = {0:'b' , 1:'g', 2:'r', 3:'c', 4:'m', 5:'y', 6:'k', 7:'b--', 8:'g--'}
 
 
-mean_j = {0: (458.4, 32.96, 7.19), 1: (459.6, 34.05, 7.41), 2: (452.2, 34.72, 7.68), 3: (450.8, 33.47, 7.43), 4: (443.3, 33.89, 7.65), 5: (435.4, 32.88, 7.55), 6: (429.6, 34.36, 8.0), 7: (388.2, 34.7, 9.24), 8: (325.4, 39.2, 12.43)}
-mean_c = {0: (374.8, 36.47, 9.74), 1: (368.6, 36.57, 9.93), 2: (372.2, 37.17, 9.99), 3: (360.9, 37.78, 10.49), 4: (361.4, 36.48, 10.1), 5: (352.4, 36.85, 10.46), 6: (354.5, 37.22, 10.5), 7: (317.6, 41.05, 13.37), 8: (243.5, 45.48, 18.7)}
-dev_j = {0: (7.6, 0.84, 0.11), 1: (4.4, 1.44, 0.36), 2: (6.4, 1.36, 0.39), 3: (7.3, 0.9, 0.16), 4: (11.0, 0.54, 0.29), 5: (6.6, 1.12, 0.27), 6: (8.5, 0.9, 0.16), 7: (35.2, 1.7, 0.07), 8: (42.1, 4.22, 3.62)}
+mean_j = {0: (458.4, 32.96, 7.19), 
+          1: (459.6, 34.05, 7.41), 
+          2: (452.2, 34.72, 7.68), 
+          3: (450.8, 33.47, 7.43), 
+          4: (443.3, 33.89, 7.65), 
+          5: (435.4, 32.88, 7.55),
+          6: (429.6, 34.36, 8.00), 
+          7: (388.2, 34.70, 9.24),
+          8: (325.4, 39.20,12.43)}
+mean_c = {0: (374.8, 36.47, 9.74), 
+          1: (368.6, 36.57, 9.93),
+          2: (372.2, 37.17, 9.99),
+          3: (360.9, 37.78, 10.49), 
+          4: (361.4, 36.48, 10.1), 
+          5: (352.4, 36.85, 10.46), 
+                      6: (354.5, 37.22, 10.5), 
+                         7: (317.6, 41.05, 13.37), 
+                            8: (243.5, 45.48, 18.7)}
+dev_j = {0: (7.6, 0.84, 0.11), 
+         1: (4.4, 1.44, 0.36), 
+            2: (6.4, 1.36, 0.39), 
+               3: (7.3, 0.9, 0.16), 
+                  4: (11.0, 0.54, 0.29), 
+                     5: (6.6, 1.12, 0.27), 
+                        6: (8.5, 0.9, 0.16), 
+                           7: (35.2, 1.7, 0.07), 
+                              8: (42.1, 4.22, 3.62)}
 dev_c = {0: (9.3, 0.92, 0.36), 1: (9.4, 1.13, 0.4), 2: (6.4, 0.9, 0.27), 3: (16.1, 0.99, 0.63), 4: (8.1, 1.06, 0.37), 5: (8.3, 0.8, 0.43), 6: (7.4, 1.64, 0.53), 7: (4.1, 0.89, 1.15), 8: (7.1, 1.41, 0.94)}
 max_j = {0: (473.76, 34.76, 7.34), 1: (464.45, 36.57, 8.01), 2: (461.33, 36.56, 8.15), 3: (463.76, 34.85, 7.62), 4: (451.84, 34.5, 8.16), 5: (445.72, 34.45, 8.0), 6: (441.77, 35.14, 8.26), 7: (363.51, 33.71, 9.28), 8: (347.26, 47.43, 19.79)}
 max_c = {0: (386.75, 38.37, 10.45), 1: (383.7, 38.54, 10.54), 2: (381.05, 38.45, 10.42), 3: (380.56, 38.93, 11.5), 4: (370.77, 37.87, 10.53), 5: (361.8, 37.91, 11.01), 6: (361.99, 40.06, 11.18), 7: (321.25, 42.4, 15.58), 8: (256.44, 47.47, 19.8)}
@@ -106,17 +131,23 @@ def fig_1():
         if spect.series == 'c':
             c_dk_li.append(spect)
 
-    lgn_lab = ["{:.2}".format(0.00)]
+    #lgn_lab = ["${:.2}$".format(0.00)]
+    lgn_lab = ["${:.2}$".format(0.00)]
 
 
    # plt.figure(1, figsize=(
     for index,spect in enumerate(c_dk_li):
-        plt.semilogy([it + 1 for it in range(len(spect.spec))], spect.spec,plt_dict[num] )      #form channel list and plot spectrum
+        plt.semilogy([it + 1 for it in range(len(spect.spec))], np.array(spect.spec)/1800.,plt_dict[num] )      #form channel list and plot spectrum
 
         if index == 0:
             pass
         else:
-            lgn_lab.append("{:.2E}".format(Decimal(str(spec.fluence_dict[num]))))
+            tmp = "{:.2E}".format(Decimal(str(spec.fluence_dict[num])))
+            a,b=tmp.split('E+')
+            ab = r'$%.2f \times 10^{%i}$' % (float(a), int(b))
+            print('ab = ', ab)
+            #lgn_lab.append("{:.2E}".format(Decimal(str(spec.fluence_dict[num]))))
+            lgn_lab.append(ab)
         num +=1
 
 
@@ -135,7 +166,7 @@ def fig_2():
         if spect.series == 'j':
             j_dk_li.append(spect)
 
-    lgn_lab = ["{:.2}".format(0.00)]
+    lgn_lab = ["${:.2}$".format(0.00)]
 
     for index,spect in enumerate(j_dk_li):
         plt.semilogy([it + 1 for it in range(len(spect.spec))], spect.spec,plt_dict[num] )      #form channel list and plot spectrum
@@ -143,7 +174,13 @@ def fig_2():
         if index == 0:
             pass
         else:
-            lgn_lab.append("{:.2E}".format(Decimal(str(spec.fluence_dict[num]))))
+            tmp = "{:.2E}".format(Decimal(str(spec.fluence_dict[num])))
+            a,b=tmp.split('E+')
+            ab = r'$%.2f \times 10^{%i}$' % (float(a), int(b))
+            print('ab = ', ab)
+            #lgn_lab.append("{:.2E}".format(Decimal(str(spec.fluence_dict[num]))))
+            lgn_lab.append(ab)        
+            #lgn_lab.append("{:.2E}".format(Decimal(str(spec.fluence_dict[num]))))
         num +=1
 
 
@@ -178,7 +215,7 @@ def fig_3():
     plt.xlim(1e7, 5e8)
     #plt.title('C-series Centroid Location vs Neutron Fluence')
     plt.xlabel('Fission Neutron Fluence (cm$^{-2}$)')
-    plt.ylabel('$^{137}$Cs Peak FWHM (%)')
+    plt.ylabel('$^{137}$Cs Peak FWHM (\%)')
     plt.savefig('figs/fig_3.pdf')
     plt.clf()
 
@@ -208,7 +245,7 @@ def fig_4():
     plt.xlim(1e7, 5e8)
     #plt.title('J-series Centroid Location vs Neutron Fluence')
     plt.xlabel('Fission Neutron Fluence (cm$^{-2}$)')
-    plt.ylabel('$^{137}$Cs Peak FWHM (%)')
+    plt.ylabel('$^{137}$Cs Peak FWHM (\%)')
     plt.savefig('figs/fig_4.pdf')
     plt.clf()
 
@@ -238,7 +275,7 @@ def fig_5():
     plt.xlim(1e7, 5e8)
     #plt.title('C-series Centroid Location vs Neutron Fluence')
     plt.xlabel('Fission Neutron Fluence (cm$^{-2}$)')
-    plt.ylabel('$^{137}$Cs Peak FWHM (%)')
+    plt.ylabel('$^{137}$Cs Peak FWHM (\%)')
     plt.savefig('figs/fig_5.pdf')
     plt.clf()
 
