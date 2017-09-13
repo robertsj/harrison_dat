@@ -5,6 +5,20 @@ import operator
 import numpy as np
 from decimal import Decimal
 
+
+from matplotlib import rc
+rc('font',**{'family':'serif'})
+from matplotlib import rcParams
+rcParams['xtick.direction'] = 'out'
+rcParams['ytick.direction'] = 'out'
+rcParams['xtick.labelsize'] = 14
+rcParams['ytick.labelsize'] = 14
+rcParams['lines.linewidth'] = 1.85
+rcParams['axes.labelsize'] = 16
+rcParams['legend.fontsize'] = 14
+rcParams.update({'figure.autolayout': True})
+rcParams['figure.figsize'] = 8, 8/1.6
+
 '''
 
 The attachments contain all the data you need. I tested a J-Series SiPM and a C-Series SiPM, hence the naming convention.
@@ -95,7 +109,7 @@ def fig_1():
     lgn_lab = ["{:.2}".format(0.00)]
 
 
-
+   # plt.figure(1, figsize=(
     for index,spect in enumerate(c_dk_li):
         plt.semilogy([it + 1 for it in range(len(spect.spec))], spect.spec,plt_dict[num] )      #form channel list and plot spectrum
 
@@ -107,11 +121,11 @@ def fig_1():
 
 
     plt.xlim(0,120)
-    plt.xlabel('Count Rate(cps)')
-    plt.ylabel('Channel Number')
+    plt.ylabel('Count Rate (cps)')
+    plt.xlabel('Channel Number')
     #plt.title('C-Series Dark Spectra')
     plt.legend(lgn_lab, loc=1)
-    plt.savefig('figs/fig_1')
+    plt.savefig('figs/fig_1.pdf')
     plt.clf()
 
 def fig_2():
@@ -134,11 +148,11 @@ def fig_2():
 
 
     plt.xlim(0,80)
-    plt.xlabel('Count Rate(cps)')
-    plt.ylabel('Channel Number')
+    plt.ylabel('Count Rate (cps)')
+    plt.xlabel('Channel Number')
     #plt.title('J-Series Dark Spectra')
     plt.legend(lgn_lab, loc=1)
-    plt.savefig('figs/fig_2')
+    plt.savefig('figs/fig_2.pdf')
     plt.clf()
 
 def fig_3():
@@ -150,12 +164,12 @@ def fig_3():
         dat.append(mean_c[num][0])
         dev.append(dev_c[num][0])
         fl_li.append(spec.fluence_dict[num])
-        print spec.fluence_dict[num]
+        print(spec.fluence_dict[num])
 
 
     #plt.plot()
-    plt.errorbar(fl_li, dat, dev, fmt='o')
-    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, dat, 1))(np.unique(fl_li)), linestyle = '--', color='b')
+    plt.errorbar(fl_li, dat, dev, fmt='o', color='k')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, dat, 1))(np.unique(fl_li)), linestyle = '--', color='k')
     plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [dat[0] for it in dat], 1))(np.unique(fl_li)), linestyle = '-', color='r')
     plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]+dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
     plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]-dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
@@ -163,10 +177,9 @@ def fig_3():
     plt.ylim(200, 450)
     plt.xlim(1e7, 5e8)
     #plt.title('C-series Centroid Location vs Neutron Fluence')
-    plt.xlabel('Fission Neutron Fluence')
-    plt.ylabel('Cs-137 Peak Centroid (chn)')
-    plt.grid()
-    plt.savefig('figs/fig_3')
+    plt.xlabel('Fission Neutron Fluence (cm$^{-2}$)')
+    plt.ylabel('$^{137}$Cs Peak FWHM (%)')
+    plt.savefig('figs/fig_3.pdf')
     plt.clf()
 
 
@@ -179,12 +192,12 @@ def fig_4():
         dat.append(mean_j[num][0])
         dev.append(dev_j[num][0])
         fl_li.append(spec.fluence_dict[num])
-        print spec.fluence_dict[num]
+        print(spec.fluence_dict[num])
 
 
     #plt.plot()
-    plt.errorbar(fl_li, dat, dev, fmt='o')
-    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, dat, 1))(np.unique(fl_li)), linestyle = '--', color='b')
+    plt.errorbar(fl_li, dat, dev, fmt='o', color='k')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, dat, 1))(np.unique(fl_li)), linestyle = '--', color='k')
     plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [dat[0] for it in dat], 1))(np.unique(fl_li)), linestyle = '-', color='r')
     plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]+dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
     plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]-dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
@@ -194,10 +207,9 @@ def fig_4():
     plt.ylim(300, 480)
     plt.xlim(1e7, 5e8)
     #plt.title('J-series Centroid Location vs Neutron Fluence')
-    plt.xlabel('Fission Neutron Fluence')
-    plt.ylabel('Cs-137 Peak Centroid (chn)')
-    plt.grid()
-    plt.savefig('figs/fig_4')
+    plt.xlabel('Fission Neutron Fluence (cm$^{-2}$)')
+    plt.ylabel('$^{137}$Cs Peak FWHM (%)')
+    plt.savefig('figs/fig_4.pdf')
     plt.clf()
 
 
@@ -210,12 +222,12 @@ def fig_5():
         dat.append(mean_c[num][2])
         dev.append(dev_c[num][2])
         fl_li.append(spec.fluence_dict[num])
-        print spec.fluence_dict[num]
+        print(spec.fluence_dict[num])
 
 
     #plt.plot()
-    plt.errorbar(fl_li, dat, dev, fmt='o')
-    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, dat, 1))(np.unique(fl_li)), linestyle = '--', color='b')
+    plt.errorbar(fl_li, dat, dev, fmt='o', color='k')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, dat, 1))(np.unique(fl_li)), linestyle = '--', color='k')
     plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [dat[0] for it in dat], 1))(np.unique(fl_li)), linestyle = '-', color='r')
     plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]+dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
     plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]-dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
@@ -225,10 +237,9 @@ def fig_5():
     plt.ylim(5, 21)
     plt.xlim(1e7, 5e8)
     #plt.title('C-series Centroid Location vs Neutron Fluence')
-    plt.xlabel('Fission Neutron Fluence')
-    plt.ylabel('Cs-137 Peak FWHM (%)')
-    plt.grid()
-    plt.savefig('figs/fig_5')
+    plt.xlabel('Fission Neutron Fluence (cm$^{-2}$)')
+    plt.ylabel('$^{137}$Cs Peak FWHM (%)')
+    plt.savefig('figs/fig_5.pdf')
     plt.clf()
 
 
@@ -241,12 +252,12 @@ def fig_6():
         dat.append(mean_j[num][2])
         dev.append(dev_j[num][2])
         fl_li.append(spec.fluence_dict[num])
-        print spec.fluence_dict[num]
+        print(spec.fluence_dict[num])
 
 
     #plt.plot()
-    plt.errorbar(fl_li, dat, dev, fmt='o')
-    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, dat, 1))(np.unique(fl_li)), linestyle = '--', color='b')
+    plt.errorbar(fl_li, dat, dev, fmt='o', color='k')
+    plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, dat, 1))(np.unique(fl_li)), linestyle = '--', color='k')
     plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [dat[0] for it in dat], 1))(np.unique(fl_li)), linestyle = '-', color='r')
     plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]+dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
     plt.plot(np.unique(fl_li), np.poly1d(np.polyfit(fl_li, [(dat[0]-dev[0]) for it in dat], 1))(np.unique(fl_li)), linestyle = '--', color='r')
@@ -256,16 +267,14 @@ def fig_6():
     plt.ylim(5, 14)
     plt.xlim(1e7, 5e8)
     #plt.title('J-series Centroid Location vs Neutron Fluence')
-    plt.xlabel('Fission Neutron Fluence')
-    plt.ylabel('Cs-137 Peak FWHM (%)')
-    plt.grid()
-
-    plt.savefig('figs/fig_6')
+    plt.xlabel('Fluence (cm$^{-2}$)')
+    plt.ylabel('$^{137}$Cs Peak FWHM (%)')
+    plt.savefig('figs/fig_6.pdf')
     plt.clf()
 
 def fig_7():
 
-    lgn_lab = ['$LaBr_3:Ce$, $^137Cs$ exposed', 'ZnS:Ag Hornyak, AmBe exposed', 'Dark Spectra at $3.98x10^8$ $n/cm^2$']
+    lgn_lab = ['LaBr$_3$:Ce, $^{137}$Cs exposed', 'ZnS:Ag Hornyak, AmBe exposed', 'Dark Spectra at $3.98\cdot 10^8$ cm$^{-2}$']
     script_dir = os.path.dirname(__file__)
 
     rel_420 = 'data/J_0_LaBr3_Cs137_420s.spe'
@@ -276,16 +285,18 @@ def fig_7():
     abs_1800 = os.path.join(script_dir, rel_1800)
     spec_1800 = spec.spectrum(abs_1800)
 
-    plt.plot(range(len(spec_420.spec)), spec_420.spec)
-    plt.plot(range(len(spec_1800.spec)), spec_1800.spec)
-    plt.plot(range(len(dk_li[len(dk_li)-1].spec)), dk_li[len(dk_li)-1].spec)
+    plt.plot(range(len(spec_420.spec)), spec_420.spec, 'k')
+    plt.plot(range(len(spec_1800.spec)), spec_1800.spec, 'b')
+    plt.plot(range(len(dk_li[len(dk_li)-1].spec)), dk_li[len(dk_li)-1].spec, 'r')
     plt.yscale('log')
     plt.xlabel('Channel Number')
     plt.ylabel('Count Rate (cps)')
     plt.xlim(0, 600)
     plt.ylim(0, 1e7)
+    
+    
     plt.legend(lgn_lab, loc=1)
-    plt.savefig('figs/fig_7')
+    plt.savefig('figs/fig_7.pdf')
     plt.clf()
 
 def fig_8():
@@ -297,6 +308,6 @@ if __name__ == '__main__':
     for num in range(7):
         num += 1
 
-        print num
+        print(num)
         exec('fig_' + str(num) + '()')
 
