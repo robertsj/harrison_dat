@@ -1,7 +1,5 @@
 import matplotlib.pyplot as plt
-import spec
-import os
-import operator
+#import spec
 import numpy as np
 from decimal import Decimal
 
@@ -13,6 +11,8 @@ rcParams['xtick.direction'] = 'out'
 rcParams['ytick.direction'] = 'out'
 rcParams['xtick.labelsize'] = 14
 rcParams['ytick.labelsize'] = 14
+rcParams['xtick.top'] = True
+rcParams['ytick.right'] = True
 rcParams['lines.linewidth'] = 1.85
 rcParams['axes.labelsize'] = 16
 rcParams['legend.fontsize'] = 14
@@ -74,13 +74,114 @@ def make_dark_spectra():
     
 
 def make_centroid_vs_fluence():
+    fluence = np.array([0,1e7, 1.57e7, 2.51e7, 3.98e7, 6.31e7, 1e8, 1.58e8, 3.98e8])
     
-    for i in range(2) :
-        # i = 0, C series
-        # i = 1, J series
+    for i in [3, 4]:
+        plt.figure(i)
+        if i == 3 :
+            means, devs = mean_c, dev_c
+        else :
+            means, devs = mean_j, dev_j       
+        dat =[]
+        dev = []
+        for num in range(9):
+            dat.append(means[num][0])
+            dev.append(devs[num][0])
+        plt.errorbar(fluence, dat, dev, fmt='o', color='k')
+        flu = np.linspace(1e7, 4e8, 100)
+        plt.plot(flu, np.poly1d(np.polyfit(fluence, dat, 1))(flu), linestyle = '--', color='k')
+        plt.plot(flu, np.poly1d(np.polyfit(fluence, dat[0]*np.ones(len(dat)), 1))(flu), linestyle = '-', color='r')
+        plt.plot(flu, np.poly1d(np.polyfit(fluence, [(dat[0]+dev[0]) for it in dat], 1))(flu), linestyle = '--', color='r')
+        plt.plot(flu, np.poly1d(np.polyfit(fluence, [(dat[0]-dev[0]) for it in dat], 1))(flu), linestyle = '--', color='r')
+        plt.ticklabel_format(style='plain', axis='y')
+        plt.xscale('log', nonposy='clip')
+        plt.ylim(200, 450)
+        plt.xlim(1e7, 4e8)
+        #plt.title('C-series Centroid Location vs Neutron Fluence')
+        plt.xlabel('Fission Neutron Fluence (cm$^{-2}$)')
+        plt.ylabel('$^{137}$Cs Peak FWHM (channel)')      
+       # 
+        #plt.ticklabel_format(useOffset=False)
+
+        if i == 1:
+            plt.ylim(200, 450)
+            plt.savefig('c_series_centroid_fluence.pdf')
+        else:
+            plt.ylim(250, 480)
+            plt.savefig('j_series_centroid_fluence.pdf')     
+  
+    
+def make_fwhm_vs_fluence():
+    fluence = np.array([0,1e7, 1.57e7, 2.51e7, 3.98e7, 6.31e7, 1e8, 1.58e8, 3.98e8])
+    
+    for i in [5, 6]:
+        plt.figure(i)
+        if i == 5 :
+            means, devs = mean_c, dev_c
+        else :
+            means, devs = mean_j, dev_j       
+        dat =[]
+        dev = []
+        for num in range(9):
+            dat.append(means[num][2])
+            dev.append(devs[num][2])
+        plt.errorbar(fluence, dat, dev, fmt='o', color='k')
+        flu = np.linspace(1e7, 4e8, 100)
+        plt.plot(flu, np.poly1d(np.polyfit(fluence, dat, 1))(flu), linestyle = '--', color='k')
+        plt.plot(flu, np.poly1d(np.polyfit(fluence, dat[0]*np.ones(len(dat)), 1))(flu), linestyle = '-', color='r')
+        plt.plot(flu, np.poly1d(np.polyfit(fluence, [(dat[0]+dev[0]) for it in dat], 1))(flu), linestyle = '--', color='r')
+        plt.plot(flu, np.poly1d(np.polyfit(fluence, [(dat[0]-dev[0]) for it in dat], 1))(flu), linestyle = '--', color='r')
+        plt.xscale('log', nonposy='clip')
+        plt.xlim(1e7, 5e8)
+        #plt.title('C-series Centroid Location vs Neutron Fluence')
+        plt.xlabel('Fission Neutron Fluence (cm$^{-2}$)')
+        plt.ylabel('$^{137}$Cs Peak FWHM (\%)')      
+        #plt.ticklabel_format(style='plain')
+        #plt.ticklabel_format(useOffset=False)
+
+        if i == 1:
+            plt.ylim(5, 21)
+            plt.savefig('c_series_fwhm_fluence.pdf')
+        else:
+            plt.ylim(5, 14)
+            plt.savefig('j_series_fwhm_fluence.pdf')     
+    
+def make_phs():
+    lgn_lab = ['LaBr$_3$:Ce, $^{137}$Cs exposed', 
+               'ZnS:Ag Hornyak, AmBe exposed', 
+               r'Dark Spectra at $3.98\times 10^8$ cm$^{-2}$']
+
+    lines = open('data/J_0_LaBr3_Cs137_420s.spe', 'r').readlines()
+    time = float(lines[9].split()[0])
+    spect_labr3 = np.array(list(map(float, lines[12:1036]))) / time
         
-        
+    lines = open('data/J_0_Hornyak_AmBe_1800s_Ppos.spe', 'r').readlines()
+    time = float(lines[9].split()[0])
+    spect_ambe = np.array(list(map(float, lines[12:1036]))) / time
+ 
+    lines = open('data/JSeriesRawData/J_8_Dark.Spe', 'r').readlines()
+    time = float(lines[9].split()[0])
+    spect_j_dark = np.array(list(map(float, lines[12:1036]))) / time
+    
+    channel = np.arange(len(spect_labr3))
+    plt.figure(7)
+    plt.plot(channel, spect_labr3, 'k')
+    plt.plot(channel, spect_ambe, 'b')
+    plt.plot(channel, spect_j_dark, 'r')
+    plt.yscale('log')
+    plt.xlabel('Channel Number')
+    plt.ylabel('Count Rate (cps)')
+    plt.xlim(0, 600)
+    plt.ylim(0, 1e4)
+    
+    
+    plt.legend(lgn_lab, loc=1)
+    plt.savefig('phs.pdf')
+    plt.clf()    
 
 if __name__ == '__main__':
     
     make_dark_spectra()
+    make_centroid_vs_fluence()
+    make_fwhm_vs_fluence()
+    make_phs()
